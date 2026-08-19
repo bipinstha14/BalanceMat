@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Team — Balance Mat</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap');
+
+:root{
+  --navy:        #101B33;
+  --navy-deep:   #0A1226;
+  --blue:        #2F6FED;
+  --blue-soft:   #E7EEFF;
+  --amber:       #E0923F;
+  --amber-soft:  #FBEEE0;
+  --paper:       #F5F6F8;
+  --ink:         #14203B;
+  --ink-soft:    #5B6478;
+  --rule:        #DCE1EA;
+  --white:       #FFFFFF;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Bricolage Grotesque', sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;
+  background:linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
+  color:var(--white);
+  overflow:hidden;
+  padding:80px 32px 64px;
+  text-align:center;
+}
+.hero-inner{ max-width:720px; margin:0 auto; position:relative; z-index:2; }
+.hero .back{
+  display:inline-flex; align-items:center; gap:6px;
+  color:rgba(255,255,255,0.55); text-decoration:none;
+  font-size:13px; font-weight:500; margin-bottom:32px;
+}
+.hero .back:hover{ color:var(--white); }
+.hero h1{
+  font-size:clamp(34px, 5.4vw, 54px);
+  font-weight:800;
+  line-height:1.08;
+  letter-spacing:-0.02em;
+  margin:0 0 16px;
+}
+.hero p.lead{
+  font-size:17px;
+  line-height:1.6;
+  color:rgba(255,255,255,0.72);
+  max-width:520px;
+  margin:0 auto 22px;
+}
+.hero .tagline{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12.5px;
+  font-weight:600;
+  letter-spacing:0.06em;
+  color:var(--amber);
+  background:rgba(224,146,63,0.12);
+  border:1px solid rgba(224,146,63,0.3);
+  padding:7px 16px;
+  border-radius:20px;
+}
+
+/* ============ TEAM SECTION ============ */
+.section-head{
+  max-width:720px;
+  margin:0 auto 44px;
+  padding:0 32px;
+  text-align:center;
+}
+.team-wrap{ padding:64px 32px 30px; }
+.section-head h2{
+  font-size:clamp(24px,3.2vw,30px);
+  font-weight:700;
+  margin:0 0 10px;
+  letter-spacing:-0.01em;
+}
+.section-head p{
+  font-size:15px;
+  color:var(--ink-soft);
+  margin:0;
+  line-height:1.6;
+}
+
+.team{
+  max-width:1080px;
+  margin:0 auto 96px;
+  padding:0 32px;
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:24px;
+}
+@media (max-width:760px){ .team{ grid-template-columns:1fr; } }
+
+.card{
+  background:var(--white);
+  border:1px solid var(--rule);
+  border-radius:8px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.card .photo{
+  width:100%;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  background:var(--paper);
+}
+.card .photo img{
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+}
+.card-content{
+  padding:24px 26px 26px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.card-content .name{
+  font-size:19px;
+  font-weight:700;
+  color:var(--ink);
+}
+.card-content .role{
+  font-size:13px;
+  font-weight:500;
+  color:var(--blue);
+  margin-top:-6px;
+}
+.bio{
+  font-size:14.5px;
+  line-height:1.6;
+  color:var(--ink-soft);
+  margin:0;
+}
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:2px;
+}
+.tag{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:0.02em;
+  color:var(--blue);
+  background:var(--blue-soft);
+  padding:5px 10px;
+  border-radius:20px;
+}
+
+/* expandable "Learn more" */
+details.more{ margin-top:2px; }
+details.more summary{
+  list-style:none;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+  color:var(--navy);
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+details.more summary::-webkit-details-marker{ display:none; }
+details.more summary::after{
+  content:"→";
+  transition:transform 0.15s ease;
+}
+details.more[open] summary::after{ transform:rotate(90deg); }
+details.more .extra{
+  margin-top:10px;
+  font-size:13.5px;
+  line-height:1.65;
+  color:var(--ink-soft);
+  padding-top:10px;
+  border-top:1px solid var(--rule);
+}
+.publication{
+  margin-top:12px;
+  padding:12px 14px;
+  background:var(--paper);
+  border-left:3px solid var(--blue);
+  border-radius:2px;
+}
+.publication .label{
+  font-size:10px; font-weight:700; letter-spacing:0.08em;
+  text-transform:uppercase; color:var(--blue); margin-bottom:5px;
+}
+.publication .title{
+  font-size:13px; font-weight:600; font-style:italic;
+  line-height:1.45; color:var(--ink); margin-bottom:4px;
+}
+.publication .meta{ font-size:11.5px; color:var(--ink-soft); }
+
+/* ============ HOW WE WORK TOGETHER ============ */
+.together{
+  background:var(--white);
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:70px 32px;
+}
+.together-inner{ max-width:1080px; margin:0 auto; }
+.together .section-head{ text-align:center; margin-bottom:52px; padding:0; max-width:600px; }
+
+.chart{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  gap:0;
+  flex-wrap:wrap;
+  row-gap:36px;
+  position:relative;
+}
+.chart::before{
+  content:"";
+  position:absolute;
+  top:34px; left:12%; right:12%;
+  height:1px;
+  background:var(--rule);
+  z-index:0;
+}
+@media (max-width:800px){ .chart::before{ display:none; } }
+
+.node{
+  flex:1;
+  min-width:160px;
+  max-width:230px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  position:relative;
+  z-index:1;
+  padding:0 12px;
+}
+.node .step-badge{
+  width:68px; height:68px;
+  border-radius:50%;
+  background:var(--white);
+  border:2px solid var(--blue);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+.node .step-badge img{ width:100%; height:100%; object-fit:cover; }
+.node .step-num{
+  font-size:11px; font-weight:700; color:var(--amber);
+  letter-spacing:0.08em; margin-bottom:6px;
+}
+.node .step-title{
+  font-size:14.5px; font-weight:700; color:var(--ink);
+  margin-bottom:3px;
+}
+.node .step-people{
+  font-size:12px; color:var(--ink-soft);
+}
+
+/* ============ FOOTER CTA ============ */
+.footer-cta{
+  background:var(--navy);
+  color:var(--white);
+  text-align:center;
+  padding:64px 32px 72px;
+}
+.footer-cta h3{
+  font-size:clamp(22px,3vw,30px);
+  font-weight:700;
+  margin:0 0 12px;
+}
+.footer-cta p{
+  color:rgba(255,255,255,0.65);
+  font-size:14.5px;
+  max-width:480px;
+  margin:0 auto 26px;
+  line-height:1.6;
+}
+.footer-cta a.btn{
+  display:inline-block;
+  background:var(--amber);
+  color:var(--navy-deep);
+  font-weight:700;
+  font-size:14px;
+  padding:13px 28px;
+  border-radius:4px;
+  text-decoration:none;
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-inner">
+    <a class="back" href="#">← Back to Balance Mat</a>
+    <h1>The people behind Balance Mat</h1>
+    <p class="lead">Meet the people turning an idea into real-world balance technology — a founder, two software developers and a data analyst, working across invention, engineering and research.</p>
+    <span class="tagline">Four disciplines. One steady signal.</span>
+  </div>
+</section>
+
+<div class="team-wrap">
+  <div class="section-head">
+    <h2>Meet the team</h2>
+    <p>From the original invention to today's technology, each person brings a different expertise to Balance Mat.</p>
+  </div>
+
+  <div class="team">
+
+    <!-- IAN BERGMAN -->
+    <div class="card">
+      <div class="photo"><img src="team/ian-bergman.jpg" alt="Ian Bergman"></div>
+      <div class="card-content">
+        <div class="name">Ian Bergman</div>
+        <div class="role">Founder · CEO · Managing Director</div>
+        <p class="bio">Inventor of the Balance Mat, responsible for its development, commercialisation and intellectual property strategy across Australia, Singapore and the United States.</p>
+        <div class="tags"><span class="tag">Innovation</span><span class="tag">IP Strategy</span><span class="tag">Commercialisation</span></div>
+        <details class="more">
+          <summary>Learn more</summary>
+          <p class="extra">Ian holds a BSc (Honours) from Monash University and spent over two decades in technology commercialisation and industry development — including as founder and CEO of Sensol Ltd and Managing Director of the Environment Industry Development Network — before turning his focus to postural sway assessment in 2016. He has led the Balance Mat's research, development and IP strategy ever since, steering it through patent grants in all three jurisdictions.</p>
+        </details>
+      </div>
+    </div>
+
+    <!-- ABISHEK SHRESTHA -->
+    <div class="card">
+      <div class="photo"><img src="team/abishek-shrestha.jpg" alt="Abishek Shrestha"></div>
+      <div class="card-content">
+        <div class="name">Abishek Shrestha</div>
+        <div class="role">Software Developer</div>
+        <p class="bio">Bridges the engineering and clinical sides of the Balance Mat, translating sensor data into validated, peer-reviewed science.</p>
+        <div class="tags"><span class="tag">Software</span><span class="tag">Research</span><span class="tag">Validation</span></div>
+        <details class="more">
+          <summary>Learn more</summary>
+          <p class="extra">Abishek holds a Master's degree in Computer Software Engineering from Federation University Australia.</p>
+          <div class="publication">
+            <div class="label">Published Research</div>
+            <div class="title">"Technical and Clinical Validation of a Portable Optical Fibre Balance Mat for Quantifying Postural Sway in Older Adults"</div>
+            <div class="meta">Shrestha, A., Herath, D., Fearon, A. &amp; Ghahramani, M. — <i>Sensors</i>, 2026</div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- BINOD SHRESTHA -->
+    <div class="card">
+      <div class="photo"><img src="team/binod-shrestha.jpg" alt="Binod Shrestha"></div>
+      <div class="card-content">
+        <div class="name">Binod Shrestha</div>
+        <div class="role">Software Developer</div>
+        <p class="bio">Designs and builds the Balance Mat's graphical user interface — the layer clinicians and researchers use every day.</p>
+        <div class="tags"><span class="tag">Software</span><span class="tag">UI / UX</span><span class="tag">Product</span></div>
+        <details class="more">
+          <summary>Learn more</summary>
+          <p class="extra">Binod holds a Master's degree in Software Engineering from Federation University Australia. Since joining Balance Mat Pty Ltd in March 2022, he has designed and developed the Balance Mat's interface — a living product that continues to evolve as new testing protocols and statistical analyses are added to the platform.</p>
+        </details>
+      </div>
+    </div>
+
+    <!-- BIPIN SHRESTHA -->
+    <div class="card">
+      <div class="photo"><img src="team/bipin-shrestha.jpg" alt="Bipin Shrestha"></div>
+      <div class="card-content">
+        <div class="name">Bipin Shrestha</div>
+        <div class="role">Digital Operations &amp; Data Analyst</div>
+        <p class="bio">Turns raw postural sway measurements into insights that support both product development and clinical use.</p>
+        <div class="tags"><span class="tag">Data</span><span class="tag">Analytics</span><span class="tag">Operations</span></div>
+        <details class="more">
+          <summary>Learn more</summary>
+          <p class="extra">Bipin holds a Master's degree in Information Technology, specialising in Data Science, from Charles Sturt University. He manages Balance Mat's digital operations and data analysis end to end.</p>
+        </details>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<section class="together">
+  <div class="together-inner">
+    <div class="section-head">
+      <h2>How we work together</h2>
+      <p>Four people, one connected process — from the original idea to the data it produces today.</p>
+    </div>
+    <div class="chart">
+      <div class="node">
+        <div class="step-badge"><img src="team/ian-bergman.jpg" alt="Ian Bergman"></div>
+        <div class="step-num">01</div>
+        <div class="step-title">Invention &amp; IP</div>
+        <div class="step-people">Ian Bergman</div>
+      </div>
+      <div class="node">
+        <div class="step-badge"><img src="team/abishek-shrestha.jpg" alt="Abishek Shrestha"></div>
+        <div class="step-num">02</div>
+        <div class="step-title">Research &amp; Validation</div>
+        <div class="step-people">Abishek Shrestha</div>
+      </div>
+      <div class="node">
+        <div class="step-badge"><img src="team/binod-shrestha.jpg" alt="Binod Shrestha"></div>
+        <div class="step-num">03</div>
+        <div class="step-title">Software &amp; Product</div>
+        <div class="step-people">Binod Shrestha</div>
+      </div>
+      <div class="node">
+        <div class="step-badge"><img src="team/bipin-shrestha.jpg" alt="Bipin Shrestha"></div>
+        <div class="step-num">04</div>
+        <div class="step-title">Data &amp; Operations</div>
+        <div class="step-people">Bipin Shrestha</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="footer-cta">
+  <h3>Want to be part of what we're building?</h3>
+  <p>We're always interested in connecting with researchers, clinicians, technology specialists and commercial partners who share our vision.</p>
+  <a class="btn" href="#">Start a conversation →</a>
+</div>
+
+</body>
+</html>
