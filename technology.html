@@ -271,43 +271,9 @@
         <div class="hero-ctas">
         </div>
     </div>
-
-    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
   <!-- Background -->
   <rect width="400" height="400" fill="#0a0f1a"/>
-
-  <!-- Grid (14x14) -->
-  <g stroke="#38bdf8" stroke-opacity="0.25" stroke-width="1">
-    <!-- Vertical lines -->
-    <line x1="28.57" y1="0" x2="28.57" y2="400"/>
-    <line x1="57.14" y1="0" x2="57.14" y2="400"/>
-    <line x1="85.71" y1="0" x2="85.71" y2="400"/>
-    <line x1="114.29" y1="0" x2="114.29" y2="400"/>
-    <line x1="142.86" y1="0" x2="142.86" y2="400"/>
-    <line x1="171.43" y1="0" x2="171.43" y2="400"/>
-    <line x1="200" y1="0" x2="200" y2="400"/>
-    <line x1="228.57" y1="0" x2="228.57" y2="400"/>
-    <line x1="257.14" y1="0" x2="257.14" y2="400"/>
-    <line x1="285.71" y1="0" x2="285.71" y2="400"/>
-    <line x1="314.29" y1="0" x2="314.29" y2="400"/>
-    <line x1="342.86" y1="0" x2="342.86" y2="400"/>
-    <line x1="371.43" y1="0" x2="371.43" y2="400"/>
-
-    <!-- Horizontal lines -->
-    <line x1="0" y1="28.57" x2="400" y2="28.57"/>
-    <line x1="0" y1="57.14" x2="400" y2="57.14"/>
-    <line x1="0" y1="85.71" x2="400" y2="85.71"/>
-    <line x1="0" y1="114.29" x2="400" y2="114.29"/>
-    <line x1="0" y1="142.86" x2="400" y2="142.86"/>
-    <line x1="0" y1="171.43" x2="400" y2="171.43"/>
-    <line x1="0" y1="200" x2="400" y2="200"/>
-    <line x1="0" y1="228.57" x2="400" y2="228.57"/>
-    <line x1="0" y1="257.14" x2="400" y2="257.14"/>
-    <line x1="0" y1="285.71" x2="400" y2="285.71"/>
-    <line x1="0" y1="314.29" x2="400" y2="314.29"/>
-    <line x1="0" y1="342.86" x2="400" y2="342.86"/>
-    <line x1="0" y1="371.43" x2="400" y2="371.43"/>
-  </g>
 
   <!-- Outer frame -->
   <rect x="20" y="20" width="360" height="360" fill="none" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="1.5"/>
@@ -318,25 +284,59 @@
   <path d="M380 340 V380 H340" fill="none" stroke="#7dd3fc" stroke-width="2"/>
   <path d="M60 380 H20 V340" fill="none" stroke="#7dd3fc" stroke-width="2"/>
 
-  <!-- Footprint outlines (neutral color) -->
-  <g fill="none" stroke="#93a5bd" stroke-width="1.5">
-    <!-- Top footprint -->
-    <path d="M200 60 C185 60, 175 80, 175 110 C175 140, 185 160, 200 160 C215 160, 225 140, 225 110 C225 80, 215 60, 200 60 Z"/>
-    
-    <!-- Bottom footprint -->
-    <path d="M200 240 C185 240, 175 260, 175 290 C175 320, 185 340, 200 340 C215 340, 225 320, 225 290 C225 260, 215 240, 200 240 Z"/>
-    
-    <!-- Left footprint -->
-    <path d="M120 200 C120 185, 140 175, 170 175 C200 175, 220 185, 220 200 C220 215, 200 225, 170 225 C140 225, 120 215, 120 200 Z"/>
-    
-    <!-- Right footprint -->
-    <path d="M280 200 C280 185, 300 175, 330 175 C360 175, 380 185, 380 200 C380 215, 360 225, 330 225 C300 225, 280 215, 280 200 Z"/>
+  <!-- Grid (14x14 cells, 280mm footprint area) -->
+  <g stroke="#38bdf8" stroke-opacity="0.25" stroke-width="1">
+    <!-- Vertical grid lines (14 cells across 360px = ~25.7px per cell) -->
+    <line x1="45.7" y1="20" x2="45.7" y2="380"/>
+    <line x1="71.4" y1="20" x2="71.4" y2="380"/>
+    <line x1="97.1" y1="20" x2="97.1" y2="380"/>
+    <line x1="122.9" y1="20" x2="122.9" y2="380"/>
+    <line x1="148.6" y1="20" x2="148.6" y2="380"/>
+    <line x1="174.3" y1="20" x2="174.3" y2="380"/>
+    <line x1="200" y1="20" x2="200" y2="380"/>
+    <line x1="225.7" y1="20" x2="225.7" y2="380"/>
+    <line x1="251.4" y1="20" x2="251.4" y2="380"/>
+    <line x1="277.1" y1="20" x2="277.1" y2="380"/>
+    <line x1="302.9" y1="20" x2="302.9" y2="380"/>
+    <line x1="328.6" y1="20" x2="328.6" y2="380"/>
+    <line x1="354.3" y1="20" x2="354.3" y2="380"/>
+
+    <!-- Horizontal grid lines (14 cells across 360px = ~25.7px per cell) -->
+    <line x1="20" y1="45.7" x2="380" y2="45.7"/>
+    <line x1="20" y1="71.4" x2="380" y2="71.4"/>
+    <line x1="20" y1="97.1" x2="380" y2="97.1"/>
+    <line x1="20" y1="122.9" x2="380" y2="122.9"/>
+    <line x1="20" y1="148.6" x2="380" y2="148.6"/>
+    <line x1="20" y1="174.3" x2="380" y2="174.3"/>
+    <line x1="20" y1="200" x2="380" y2="200"/>
+    <line x1="20" y1="225.7" x2="380" y2="225.7"/>
+    <line x1="20" y1="251.4" x2="380" y2="251.4"/>
+    <line x1="20" y1="277.1" x2="380" y2="277.1"/>
+    <line x1="20" y1="302.9" x2="380" y2="302.9"/>
+    <line x1="20" y1="328.6" x2="380" y2="328.6"/>
+    <line x1="20" y1="354.3" x2="380" y2="354.3"/>
   </g>
 
-  <!-- COG Tracking point (yellow circle) -->
-  <circle cx="200" cy="200" r="8" fill="none" stroke="#fbbf24" stroke-width="1.5"/>
-  <circle cx="200" cy="200" r="3" fill="#fbbf24"/>
+  <!-- Footprint outlines (matching sketch positions and proportions) -->
+  <g fill="none" stroke="#93a5bd" stroke-width="1.5">
+    <!-- Top footprint (centered horizontally, upper portion) -->
+    <path d="M200 55 C180 55, 170 75, 170 105 C170 135, 180 155, 200 155 C220 155, 230 135, 230 105 C230 75, 220 55, 200 55 Z"/>
+    
+    <!-- Bottom footprint (centered horizontally, lower portion) -->
+    <path d="M200 245 C180 245, 170 265, 170 295 C170 325, 180 345, 200 345 C220 345, 230 325, 230 295 C230 265, 220 245, 200 245 Z"/>
+    
+    <!-- Left footprint (left side, vertically centered) -->
+    <path d="M115 200 C115 175, 145 165, 185 165 C225 165, 255 175, 255 200 C255 225, 225 235, 185 235 C145 235, 115 225, 115 200 Z"/>
+    
+    <!-- Right footprint (right side, vertically centered) -->
+    <path d="M315 200 C315 175, 345 165, 385 165 C425 165, 455 175, 455 200 C455 225, 425 235, 385 235 C345 235, 315 225, 315 200 Z"/>
+  </g>
+
+  <!-- COG Tracking point (yellow circle at center) -->
+  <circle cx="200" cy="200" r="12" fill="none" stroke="#fbbf24" stroke-width="1.5"/>
+  <circle cx="200" cy="200" r="4" fill="#fbbf24"/>
 </svg>
+    
 </section>
 
 <!-- SENSORY COVERAGE -->
