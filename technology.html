@@ -271,7 +271,7 @@
         <div class="hero-ctas">
         </div>
     </div>
-  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
   <!-- Background -->
   <rect width="400" height="400" fill="#0a0f1a"/>
 
@@ -284,9 +284,9 @@
   <path d="M380 340 V380 H340" fill="none" stroke="#7dd3fc" stroke-width="2"/>
   <path d="M60 380 H20 V340" fill="none" stroke="#7dd3fc" stroke-width="2"/>
 
-  <!-- Grid (14x14 cells, 280mm footprint area) -->
+  <!-- Grid (14x14 cells) -->
   <g stroke="#38bdf8" stroke-opacity="0.25" stroke-width="1">
-    <!-- Vertical grid lines (14 cells across 360px = ~25.7px per cell) -->
+    <!-- Vertical grid lines -->
     <line x1="45.7" y1="20" x2="45.7" y2="380"/>
     <line x1="71.4" y1="20" x2="71.4" y2="380"/>
     <line x1="97.1" y1="20" x2="97.1" y2="380"/>
@@ -301,7 +301,7 @@
     <line x1="328.6" y1="20" x2="328.6" y2="380"/>
     <line x1="354.3" y1="20" x2="354.3" y2="380"/>
 
-    <!-- Horizontal grid lines (14 cells across 360px = ~25.7px per cell) -->
+    <!-- Horizontal grid lines -->
     <line x1="20" y1="45.7" x2="380" y2="45.7"/>
     <line x1="20" y1="71.4" x2="380" y2="71.4"/>
     <line x1="20" y1="97.1" x2="380" y2="97.1"/>
@@ -317,25 +317,26 @@
     <line x1="20" y1="354.3" x2="380" y2="354.3"/>
   </g>
 
-  <!-- Footprint outlines (matching sketch positions and proportions) -->
+  <!-- CORRECTED Footprint outlines (from your blueprint sketch) -->
   <g fill="none" stroke="#93a5bd" stroke-width="1.5">
-    <!-- Top footprint (centered horizontally, upper portion) -->
-    <path d="M200 55 C180 55, 170 75, 170 105 C170 135, 180 155, 200 155 C220 155, 230 135, 230 105 C230 75, 220 55, 200 55 Z"/>
+    <!-- Top footprint (vertical orientation, top center) -->
+    <path d="M200 50 C185 50, 175 70, 175 100 C175 130, 185 150, 200 150 C215 150, 225 130, 225 100 C225 70, 215 50, 200 50 Z"/>
     
-    <!-- Bottom footprint (centered horizontally, lower portion) -->
-    <path d="M200 245 C180 245, 170 265, 170 295 C170 325, 180 345, 200 345 C220 345, 230 325, 230 295 C230 265, 220 245, 200 245 Z"/>
+    <!-- Bottom footprint (vertical orientation, bottom center) -->
+    <path d="M200 250 C185 250, 175 270, 175 300 C175 330, 185 350, 200 350 C215 350, 225 330, 225 300 C225 270, 215 250, 200 250 Z"/>
     
-    <!-- Left footprint (left side, vertically centered) -->
-    <path d="M115 200 C115 175, 145 165, 185 165 C225 165, 255 175, 255 200 C255 225, 225 235, 185 235 C145 235, 115 225, 115 200 Z"/>
+    <!-- Left footprint (horizontal orientation, left side) -->
+    <path d="M100 200 C100 185, 120 175, 150 175 C180 175, 200 185, 200 200 C200 215, 180 225, 150 225 C120 225, 100 215, 100 200 Z"/>
     
-    <!-- Right footprint (right side, vertically centered) -->
-    <path d="M315 200 C315 175, 345 165, 385 165 C425 165, 455 175, 455 200 C455 225, 425 235, 385 235 C345 235, 315 225, 315 200 Z"/>
+    <!-- Right footprint (horizontal orientation, right side) -->
+    <path d="M300 200 C300 185, 320 175, 350 175 C380 175, 400 185, 400 200 C400 215, 380 225, 350 225 C320 225, 300 215, 300 200 Z"/>
   </g>
 
   <!-- COG Tracking point (yellow circle at center) -->
   <circle cx="200" cy="200" r="12" fill="none" stroke="#fbbf24" stroke-width="1.5"/>
   <circle cx="200" cy="200" r="4" fill="#fbbf24"/>
 </svg>
+
     
 </section>
 
