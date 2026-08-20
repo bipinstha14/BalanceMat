@@ -154,17 +154,31 @@
     padding:10px 18px;
     font-size:12.5px;
   }
+  .login-bar{
+    height:123px;
+    background:#f7f8fa;
+  }
+
+  .login-bar .wrap{
+    height:100%;
+    display:flex;
+    justify-content:flex-end;
+    align-items:flex-start;
+  }
+
   .hero-login{
-    display:block;
-    width:max-content;
-    margin-left:auto;
-    margin-bottom:18px;
-    padding:11px 24px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:96px;
+    height:43px;
+    margin-top:26px;
+    padding:0 24px;
     background:#0878E8;
     color:#ffffff;
     border-radius:10px;
     font-size:16px;
-    line-height:1.2;
+    line-height:1;
     font-weight:700;
     letter-spacing:0;
     text-transform:none;
@@ -469,6 +483,11 @@
   </div>
 </header>
 
+<div class="login-bar" aria-label="Account access">
+  <div class="wrap">
+    <a class="hero-login" href="https://balancemat.org/" target="_blank" rel="noopener">Log In</a>
+  </div>
+</div>
 
 <section class="hero" id="home">
   <svg class="hero-wave" viewBox="0 0 1180 160" preserveAspectRatio="none">
@@ -476,7 +495,6 @@
     <path class="p2" id="wave2" d="M0,100 C 70,60 130,150 190,100 C 250,60 310,150 370,100 C 430,60 490,150 550,100 C 610,60 670,150 730,100 C 790,60 850,150 910,100 C 970,60 1030,150 1090,100 C 1130,80 1155,120 1180,100"/>
   </svg>
   <div class="wrap hero-content">
-    <a class="hero-login" href="https://balancemat.org/" target="_blank" rel="noopener">Log In</a>
     <div class="eyebrow">Australian innovation · Est. 2016</div>
     <h1>Balance should be <em>measurable</em>, objective and accessible.</h1>
     <p class="lede">Balance Mat turns the quiet, constant sway of the human body into meaningful data — giving researchers and clinicians an objective read on postural stability, for the first time at scale.</p>
