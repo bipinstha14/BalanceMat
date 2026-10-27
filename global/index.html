@@ -2,22 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Global Intelligence Dashboard</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 
 <style>
 :root {
     --primary:#0071e3;
     --dark:#0f172a;
+    --panel:#111827;
     --light:#f8fafc;
     --gray:#64748b;
+    --accent:#f5a623;
+    --border:rgba(255,255,255,0.1);
 }
+
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
-    font-family: -apple-system, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     overflow: hidden;
     background: var(--dark);
 }
@@ -28,41 +34,39 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.2rem 5%;
-    background: rgba(15, 23, 42, 0.85);
+    padding: 1rem 2.5rem;
+    background: rgba(15, 23, 42, 0.92);
     backdrop-filter: blur(10px);
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 3000;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid var(--border);
 }
 
 .logo { text-decoration: none; display: flex; align-items: center; }
 .logo-icon { height: 42px; width: auto; margin-right: 0.65rem; }
-.logo-text { display: flex; flex-direction: column; line-height: 1.1; }
-.logo-title { font-size: 2rem; font-weight: 700; color: white; letter-spacing: -0.5px; }
-.logo-tagline { font-size: 0.75rem; font-weight: 600; color: #f5a623; letter-spacing: 2px; margin-top: 4px; text-transform: uppercase; }
-
-nav img {
-    height: 70px;
-}
+.logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+.logo-title { font-size: 1.3rem; font-weight: 700; color: white; letter-spacing: -0.3px; }
+.logo-tagline { font-size: 0.65rem; font-weight: 600; color: var(--accent); letter-spacing: 1.5px; margin-top: 2px; text-transform: uppercase; }
 
 .nav-links {
     display: flex;
     align-items: center;
 }
 
-.nav-links a {
-    color: white;
+.nav-links > a {
+    color: #e2e8f0;
     text-decoration: none;
-    margin-left: 2rem;
-    font-size: 0.9rem;
-    transition: 0.3s;
+    margin-left: 1.75rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: color 0.2s;
+    white-space: nowrap;
 }
 
-.nav-links a:hover {
+.nav-links > a:hover {
     color: var(--primary);
 }
 
@@ -71,18 +75,28 @@ nav img {
 .dropdown {
     position: relative;
     display: inline-block;
-    margin-left: 2rem;
+    margin-left: 1.75rem;
 }
 
 .dropdown > a {
-    color: white;
+    color: #e2e8f0;
     text-decoration: none;
-    font-size: 0.9rem;
-    transition: 0.3s;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
 .dropdown > a:hover {
     color: var(--primary);
+}
+
+.caret {
+    font-size: 0.6rem;
+    transform: translateY(1px);
+    opacity: 0.75;
 }
 
 .dropdown-menu {
@@ -95,9 +109,9 @@ nav img {
     border: 1px solid rgba(255,255,255,0.15);
     top: 100%;
     right: 0;
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
     z-index: 4000;
-    margin-top: 0.5rem;
+    margin-top: 0.6rem;
 }
 
 .dropdown-menu a {
@@ -107,7 +121,7 @@ nav img {
     font-size: 0.85rem;
     color: #cbd5e1;
     text-decoration: none;
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.15s, color 0.15s;
     cursor: pointer;
 }
 
@@ -126,62 +140,6 @@ nav img {
     margin: 0 0.35rem;
 }
 
-/* ================= MAP ================= */
-
-#map {
-    position: absolute;
-    top: 90px; /* IMPORTANT: makes space for navbar */
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 90px);
-}
-
-/* ================= PANEL ================= */
-
-#panel {
-    position: absolute;
-    top: 90px;
-    right: -40%;
-    width: 35%;
-    height: calc(100vh - 90px);
-    background: var(--dark);
-    color: white;
-    padding: 30px;
-    overflow-y: auto;
-    box-sizing: border-box;
-    transition: 0.3s ease;
-    z-index: 2000;
-}
-
-#panel.active {
-    right: 0;
-}
-
-/* content */
-h1 {
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: #60a5fa;
-}
-
-.stat {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    padding: 10px;
-    background: #111827;
-    border-radius: 8px;
-}
-
-/* scrollbar */
-#panel::-webkit-scrollbar {
-    width: 6px;
-}
-#panel::-webkit-scrollbar-thumb {
-    background: #2563eb;
-    border-radius: 10px;
-}
-
 /* ===== Mobile menu ===== */
 .hamburger {
     display: none; flex-direction: column; justify-content: center; gap: 5px;
@@ -193,8 +151,11 @@ h1 {
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .hamburger { display: flex; }
+    .nav-links {
+        display: none;
+    }
     .nav-links.open {
         display: flex !important; flex-direction: column; align-items: flex-start;
         position: fixed; top: 0; right: 0; height: 100vh; width: 78%; max-width: 320px;
@@ -202,10 +163,198 @@ h1 {
         padding: 6rem 2rem 2rem; gap: 0.4rem; overflow-y: auto;
         box-shadow: -10px 0 30px rgba(0,0,0,0.4);
     }
-    .nav-links.open a { margin-left: 0; margin-top: 0.5rem; font-size: 1rem; width: 100%; }
+    .nav-links.open > a { margin-left: 0; margin-top: 0.5rem; font-size: 1rem; width: 100%; }
     .nav-links.open .dropdown { margin-left: 0; width: 100%; }
     .nav-links.open .dropdown-menu { position: static; box-shadow: none; margin-top: 0.3rem; width: 100%; display: none; }
     .nav-links.open .dropdown-menu.open { display: block; }
+}
+
+/* ================= MAP ================= */
+
+.nav-height { height: 76px; }
+
+#map {
+    position: absolute;
+    top: 76px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 76px);
+}
+
+/* ================= BACK BUTTON ================= */
+
+#backBtn {
+    position: absolute;
+    top: 96px;
+    left: 20px;
+    z-index: 1500;
+    background: rgba(15,23,42,0.92);
+    color: #fff;
+    border: 1px solid var(--border);
+    padding: 0.6rem 1.1rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    transition: background 0.2s, transform 0.15s;
+}
+#backBtn:hover { background: rgba(30,41,59,0.98); transform: translateY(-1px); }
+#backBtn.visible { display: inline-flex; }
+
+/* ================= PANEL ================= */
+
+#panel {
+    position: absolute;
+    top: 76px;
+    right: -420px;
+    width: 380px;
+    max-width: 88vw;
+    height: calc(100vh - 76px);
+    background: var(--dark);
+    color: white;
+    padding: 28px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    transition: right 0.3s ease;
+    z-index: 2000;
+    border-left: 1px solid var(--border);
+}
+
+#panel.active {
+    right: 0;
+}
+
+h1 {
+    font-size: 19px;
+    margin: 0;
+    color: #60a5fa;
+    font-weight: 700;
+}
+
+.eyebrow {
+    font-size: 0.7rem;
+    color: var(--gray);
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin: 10px 0;
+    padding: 12px 14px;
+    background: var(--panel);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+.stat span { color: #94a3b8; font-size: 0.85rem; flex-shrink: 0; padding-top: 1px; }
+.stat b { font-size: 0.9rem; font-weight: 600; text-align: right; }
+
+.close-btn {
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.4);
+    color: #f87171;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+}
+.close-btn:hover { background: rgba(239,68,68,0.28); }
+
+#panel::-webkit-scrollbar { width: 6px; }
+#panel::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
+
+/* ================= MARKERS ================= */
+
+.bm-pin {
+    width: 34px;
+    height: 34px;
+    position: relative;
+}
+.bm-pin svg { filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4)); }
+.bm-pin:hover svg .pin-body { fill: #2563eb; }
+
+.bm-cluster {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    cursor: pointer;
+}
+.bm-cluster svg { filter: drop-shadow(0 3px 8px rgba(0,0,0,0.45)); }
+.bm-cluster .badge {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    background: var(--accent);
+    color: #1e293b;
+    font-size: 11px;
+    font-weight: 800;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--dark);
+}
+
+.bm-tooltip {
+    background: #0f172a !important;
+    border: 1px solid var(--border) !important;
+    color: #fff !important;
+    font-family: inherit !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    padding: 6px 10px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.35) !important;
+}
+.bm-tooltip::before { border-top-color: #0f172a !important; }
+
+/* leaflet attribution restyle */
+.leaflet-control-attribution {
+    background: rgba(15,23,42,0.75) !important;
+    color: #94a3b8 !important;
+    font-size: 10px !important;
+}
+.leaflet-control-attribution a { color: #60a5fa !important; }
+
+/* ================= VDR MODAL ================= */
+
+#vdrModal {
+    display: none;
+    position: fixed;
+    z-index: 4000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(15,23,42,0.85);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+.vdr-box {
+    background: white;
+    color: #0f172a;
+    padding: 2.5rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
 }
 </style>
 </head>
@@ -214,65 +363,68 @@ h1 {
 
 <!-- ================= NAVIGATION ================= -->
 <nav>
-    <a href="index/#home" class="logo">
-    <img src="logo1.png" alt="Balance Mat icon" class="logo-icon">
-    <div class="logo-text">
-        <div class="logo-title">Balance Mat</div>
-        <div class="logo-tagline">LIVE WELL LONGER</div>
-    </div>
-</a>
+    <a href="./#home" class="logo">
+        <img src="logo1.png" alt="Balance Mat icon" class="logo-icon">
+        <div class="logo-text">
+            <div class="logo-title">Balance Mat</div>
+            <div class="logo-tagline">Live well longer</div>
+        </div>
+    </a>
 
     <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </button>
-        <div class="nav-links" id="navLinks">
-        <a href="index/#home">Home</a>
+        <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-links" id="navLinks">
+        <a href="./#home">Home</a>
 
         <div class="dropdown">
-            <a href="#" onclick="toggleDropdown(event)" style="cursor: pointer;">Solutions ▾</a>
+            <a href="#" onclick="toggleDropdown(event)">Solutions <span class="caret">&#9662;</span></a>
             <div class="dropdown-menu" style="left:0;right:auto;">
                 <a href="aged-care.html">Aged Care Facilities</a>
-                <a href="sports-concussion.html">Sports & Concussion</a>
+                <a href="sports-concussion.html">Sports &amp; Concussion</a>
                 <a href="allied-health.html">Allied Health Practitioners</a>
             </div>
         </div>
 
-        <a href="../technology/">Technology</a>
-        <a href="../CRC/">CRC Care Economy</a>
+        <a href="technology.html">Technology</a>
+        <a href="crc.html">CRC Care Economy</a>
 
         <div class="dropdown">
-            <a href="#" onclick="toggleDropdown(event)" style="cursor: pointer;">Medical ▾</a>
+            <a href="#" onclick="toggleDropdown(event)">Medical <span class="caret">&#9662;</span></a>
             <div class="dropdown-menu" style="left:0;right:auto;">
                 <a href="diabetes.html">Diabetes</a>
                 <a href="neurological.html">Neurological</a>
             </div>
         </div>
 
-        <a href="../global/">Global</a>
+        <a href="global.html">Global</a>
+
         <div class="dropdown">
-            <a href="#" onclick="toggleDropdown(event)">Our Partners ▾</a>
+            <a href="#" onclick="toggleDropdown(event)">Our Partners <span class="caret">&#9662;</span></a>
             <div class="dropdown-menu">
                 <a href="vestech-medical.html">Vestech Medical</a>
                 <a href="avant-group.html">Avant Group</a>
                 <a href="university-of-canberra.html">University of Canberra</a>
             </div>
         </div>
-        <a href="index/#technical">Technical</a>
+
+        <a href="index.html#technical">Technical</a>
 
         <div class="dropdown">
-            <a href="#" onclick="toggleDropdown(event)" style="cursor: pointer;">Data Room ▾</a>
+            <a href="#" onclick="toggleDropdown(event)">Data Room <span class="caret">&#9662;</span></a>
             <div class="dropdown-menu" id="dropdownMenu">
-                <a href="#" onclick="openVdrModal(); return false;">🔒 Secure Data Room</a>
+                <a href="#" onclick="openVdrModal(); return false;">&#128274; Virtual Data Room</a>
             </div>
         </div>
 
-        <a href="index/#contact">Contact</a>
+        <a href="index.html#contact">Contact</a>
     </div>
 </nav>
 
 <!-- ================= VIRTUAL DATA ROOM MODAL ================= -->
-<div id="vdrModal" style="display: none; position: fixed; z-index: 4000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15,23,42,0.85); backdrop-filter: blur(5px); justify-content: center; align-items: center;">
-    <div style="background: white; color: #0f172a; padding: 2.5rem; border-radius: 16px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);">
+<div id="vdrModal">
+    <div class="vdr-box">
         <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 700;">Secure Corporate Directory</h3>
         <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">All Balance Mat user manuals, validation data, and corporate files are restricted. Enter your access code to view files.</p>
         <input type="password" id="vdrPasscode" placeholder="Enter Access Code" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; text-align: center; color: #0f172a; background: #fff;">
@@ -284,12 +436,14 @@ h1 {
 <!-- ================= MAP ================= -->
 <div id="map"></div>
 
+<button id="backBtn" onclick="returnToGlobalView()">&#8592; Back to global view</button>
+
 <!-- ================= PANEL ================= -->
 <div id="panel"></div>
 
 <script>
 
-// DATA ROOM DROPDOWN
+// NAV
 function toggleMobileMenu() {
     const nav = document.getElementById("navLinks");
     const btn = document.querySelector(".hamburger");
@@ -309,13 +463,9 @@ document.addEventListener("click", function () {
     document.querySelectorAll(".dropdown-menu").forEach(m => m.style.display = "none");
 });
 
-// VIRTUAL DATA ROOM MODAL
-function openVdrModal() {
-    document.getElementById("vdrModal").style.display = "flex";
-}
-function closeVdrModal() {
-    document.getElementById("vdrModal").style.display = "none";
-}
+// VDR MODAL
+function openVdrModal() { document.getElementById("vdrModal").style.display = "flex"; }
+function closeVdrModal() { document.getElementById("vdrModal").style.display = "none"; }
 function checkAccess() {
     const code = document.getElementById("vdrPasscode").value;
     if (code === "1234") {
@@ -326,98 +476,47 @@ function checkAccess() {
 }
 
 // MAP INIT
-const map = L.map('map').setView([20, 0], 2);
+const map = L.map('map', { zoomControl: true }).setView([20, 0], 2);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: ''
+    attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
 // DATA
 const locations = [
-{
-    name: "LSU Health",
-    country: "USA",
-    lat: 29.9511,
-    lng: -90.0715,
-    type: "Academic Health Centre",
-    focus: "Clinical research & education"
-},
-{
-    name: "StandSure Physiotherapy",
-    country: "UK",
-    lat: 51.5074,
-    lng: -0.1278,
-    type: "Physiotherapy Clinic",
-    focus: "Rehabilitation & mobility care"
-},
-{
-    name: "King Abdulaziz Medical City",
-    country: "Saudi Arabia",
-    lat: 21.4858,
-    lng: 39.1925,
-    type: "Hospital",
-    focus: "Specialist care & research"
-},
-{
-    name: "SERI Singapore",
-    country: "Singapore",
-    lat: 1.2966,
-    lng: 103.7764,
-    type: "Research Institute",
-    focus: "Vision science & ophthalmology"
-},
-{
-    name: "Hallmark Physiotherapy",
-    country: "Singapore",
-    lat: 1.3521,
-    lng: 103.8198,
-    type: "Physio Clinic",
-    focus: "Sports rehabilitation"
-},
-{
-    name: "Muscle Mastery PNG",
-    country: "PNG",
-    lat: -9.4438,
-    lng: 147.1803,
-    type: "Physio Clinic",
-    focus: "Pain management & recovery"
-},
-{
-    name: "Hutt Hospital ED",
-    country: "New Zealand",
-    lat: -41.2090,
-    lng: 174.9080,
-    type: "Emergency Department",
-    focus: "Acute emergency care"
-}
+    { name: "LSU Health", country: "USA", lat: 29.9511, lng: -90.0715, type: "Academic Health Centre", focus: "Clinical research & education" },
+    { name: "StandSure Physiotherapy", country: "UK", lat: 51.5074, lng: -0.1278, type: "Physiotherapy Clinic", focus: "Rehabilitation & mobility care" },
+    { name: "King Abdulaziz Medical City", country: "Saudi Arabia", lat: 21.4858, lng: 39.1925, type: "Hospital", focus: "Specialist care & research" },
+    { name: "SERI Singapore", country: "Singapore", lat: 1.2966, lng: 103.7764, type: "Research Institute", focus: "Vision science & ophthalmology" },
+    { name: "Hallmark Physiotherapy", country: "Singapore", lat: 1.3521, lng: 103.8198, type: "Physio Clinic", focus: "Sports rehabilitation" },
+    { name: "Muscle Mastery PNG", country: "PNG", lat: -9.4438, lng: 147.1803, type: "Physio Clinic", focus: "Pain management & recovery" },
+    { name: "Hutt Hospital ED", country: "New Zealand", lat: -41.2090, lng: 174.9080, type: "Emergency Department", focus: "Acute emergency care" },
+    { name: "Ark Physiofit", country: "India", lat: 28.6139, lng: 77.2090, type: "Physiotherapy Clinic", focus: "Physiotherapy, rehabilitation & mobility care" },
 ];
 
 const panel = document.getElementById("panel");
+const backBtn = document.getElementById("backBtn");
 
-// OPEN PANEL
 function showPanel(loc) {
     panel.classList.add("active");
-
     panel.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-            <h1>${loc.name}</h1>
-            <button onclick="closePanel()" style="
-                background:#ef4444;
-                border:none;
-                color:white;
-                padding:6px 10px;
-                border-radius:6px;
-                cursor:pointer;
-            ">✕</button>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+            <div>
+                <div class="eyebrow">${loc.type}</div>
+                <h1>${loc.name}</h1>
+            </div>
+            <button class="close-btn" onclick="closePanel()" aria-label="Close">&times;</button>
         </div>
 
-        <div class="stat"><span>Type</span><b>${loc.type}</b></div>
-        <div class="stat"><span>Country</span><b>${loc.country}</b></div>
-        <div class="stat"><span>Focus</span><b>${loc.focus}</b></div>
+        <div style="margin-top:22px;">
+            <div class="stat"><span>Type</span><b>${loc.type}</b></div>
+            <div class="stat"><span>Country</span><b>${loc.country}</b></div>
+            <div class="stat"><span>Focus</span><b>${loc.focus}</b></div>
+        </div>
 
-        <hr style="border:0;border-top:1px solid #1f2937;margin:15px 0;">
+        <hr style="border:0;border-top:1px solid #1f2937;margin:20px 0;">
 
-        <p style="color:#94a3b8;font-size:13px;line-height:1.5;">
+        <p style="color:#94a3b8;font-size:13px;line-height:1.6;">
             Global Balance Mat deployment node with real-time clinical integration.
         </p>
     `;
@@ -427,11 +526,82 @@ function closePanel() {
     panel.classList.remove("active");
 }
 
-// MARKERS
-locations.forEach(loc => {
-    const marker = L.marker([loc.lat, loc.lng]).addTo(map);
+// ================= ICONS =================
+
+function pinIcon() {
+    return L.divIcon({
+        className: '',
+        html: `
+            <div class="bm-pin">
+                <svg width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+                    <path class="pin-body" d="M17 2C10.4 2 5 7.2 5 13.6 5 22 17 32 17 32s12-10 12-18.4C29 7.2 23.6 2 17 2z" fill="#0071e3" stroke="#ffffff" stroke-width="1.5"/>
+                    <circle cx="17" cy="13.5" r="4.5" fill="#0f172a"/>
+                </svg>
+            </div>`,
+        iconSize: [34, 34],
+        iconAnchor: [17, 32]
+    });
+}
+
+function clusterIcon(count) {
+    return L.divIcon({
+        className: '',
+        html: `
+            <div class="bm-cluster">
+                <svg width="40" height="40" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17 2C10.4 2 5 7.2 5 13.6 5 22 17 32 17 32s12-10 12-18.4C29 7.2 23.6 2 17 2z" fill="#0071e3" stroke="#ffffff" stroke-width="1.5"/>
+                    <circle cx="17" cy="13.5" r="4.5" fill="#0f172a"/>
+                </svg>
+                <div class="badge">${count}</div>
+            </div>`,
+        iconSize: [40, 40],
+        iconAnchor: [20, 38]
+    });
+}
+
+// ================= MARKERS =================
+
+const singaporeLocations = locations.filter(loc => loc.country === "Singapore");
+const otherLocations = locations.filter(loc => loc.country !== "Singapore");
+
+otherLocations.forEach(loc => {
+    const marker = L.marker([loc.lat, loc.lng], { icon: pinIcon() }).addTo(map);
+    marker.bindTooltip(`${loc.name} &middot; ${loc.country}`, { direction: 'top', offset: [0, -30], className: 'bm-tooltip' });
     marker.on('click', () => showPanel(loc));
 });
+
+const singaporeCenter = [
+    (1.2966 + 1.3521) / 2,
+    (103.7764 + 103.8198) / 2
+];
+
+const singaporeCluster = L.marker(singaporeCenter, { icon: clusterIcon(singaporeLocations.length) }).addTo(map);
+singaporeCluster.bindTooltip(`Singapore &middot; ${singaporeLocations.length} locations`, { direction: 'top', offset: [0, -34], className: 'bm-tooltip' });
+
+const singaporeMarkers = singaporeLocations.map(loc => {
+    const marker = L.marker([loc.lat, loc.lng], { icon: pinIcon() });
+    marker.bindTooltip(loc.name, { direction: 'top', offset: [0, -30], className: 'bm-tooltip' });
+    marker.on('click', () => showPanel(loc));
+    return marker;
+});
+
+// keep track of the world view so "back" always returns exactly here
+const worldView = { center: map.getCenter(), zoom: map.getZoom() };
+
+singaporeCluster.on('click', () => {
+    map.flyTo(singaporeCenter, 11, { duration: 1.1 });
+    map.removeLayer(singaporeCluster);
+    singaporeMarkers.forEach(marker => marker.addTo(map));
+    backBtn.classList.add('visible');
+});
+
+function returnToGlobalView() {
+    singaporeMarkers.forEach(marker => map.removeLayer(marker));
+    singaporeCluster.addTo(map);
+    map.flyTo(worldView.center, worldView.zoom, { duration: 1.1 });
+    backBtn.classList.remove('visible');
+    closePanel();
+}
 
 </script>
 
