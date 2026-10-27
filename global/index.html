@@ -303,9 +303,10 @@ h1 {
     color: #1e293b;
     font-size: 11px;
     font-weight: 800;
-    width: 20px;
+    min-width: 20px;
     height: 20px;
-    border-radius: 50%;
+    padding: 0 4px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -436,7 +437,7 @@ h1 {
 <!-- ================= MAP ================= -->
 <div id="map"></div>
 
-<button id="backBtn" onclick="returnToGlobalView()">&#8592; Back to global view</button>
+<button id="backBtn" onclick="goBack()">&#8592; Back to global view</button>
 
 <!-- ================= PANEL ================= -->
 <div id="panel"></div>
@@ -494,6 +495,67 @@ const locations = [
     { name: "Ark Physiofit", country: "India", lat: 28.6139, lng: 77.2090, type: "Physiotherapy Clinic", focus: "Physiotherapy, rehabilitation & mobility care" },
 ];
 
+// ---- AUSTRALIA (21 Balance Mats sold since Feb 2024) ----
+// NOTE: coordinates are placed around each state's main city (approximate).
+// To pin a site exactly, add  lat: -00.0000, lng: 000.0000  to its entry below.
+const stateHubs = {
+    QLD: { name: "Queensland",                   lat: -27.4698, lng: 153.0251 },
+    NSW: { name: "New South Wales",              lat: -33.8688, lng: 151.2093 },
+    ACT: { name: "Australian Capital Territory", lat: -35.2809, lng: 149.1300 },
+    VIC: { name: "Victoria",                     lat: -37.8136, lng: 144.9631 },
+    SA:  { name: "South Australia",              lat: -34.9285, lng: 138.6007 }
+};
+
+// Sites with lat/lng + address are placed at a real street address.
+// Sites WITHOUT lat/lng (marked "TODO") are still placed around the state capital -
+// add lat, lng and address to pin them exactly.
+const australiaAll = [
+    // QLD
+    { name: "Our GP Complex", state: "QLD", address: "G/525 Boundary St, Spring Hill QLD 4000", lat: -27.4601315, lng: 153.0216287 },
+    { name: "Exercise Therapies", state: "QLD", address: "Shop 10/5-7 Tallebudgera Creek Rd, Burleigh Heads QLD 4220", lat: -28.110152, lng: 153.440787 },
+    // NSW
+    { name: "Optimum Allied Health", state: "NSW", address: "49 Queen St, Grafton NSW 2460", lat: -29.6873754, lng: 152.9326968 },
+    { name: "Hastings Physio and Health", state: "NSW", address: "Unit 7/72-80 Lake Rd, Port Macquarie NSW 2444", lat: -31.4413032, lng: 152.9091339 },
+    { name: "Garden Village Aged Care", state: "NSW", address: "7 Garden Cres, Port Macquarie NSW 2444", lat: -31.4340844, lng: 152.8969241 },
+    { name: "Ultra FLX", state: "NSW", approx: true },              // TODO exact address
+    { name: "Wini Health", state: "NSW", address: "2 Willyama Ave, Fairlight NSW 2094 (registered address)", lat: -33.7997, lng: 151.2713, approx: true },
+    { name: "Rehab on the Road", state: "NSW", address: "Mobile service, Sydney Northern Beaches", lat: -33.7506, lng: 151.2860, approx: true },
+    { name: "Vintage Fitness and Health", state: "NSW", address: "8 Probate St, Naremburn NSW 2065", lat: -33.8159224, lng: 151.2026125 },
+    { name: "Think and Move", state: "NSW", address: "Mobile service, Ashfield NSW 2131", lat: -33.8887, lng: 151.1260, approx: true },
+    { name: "MacAllan Health", state: "NSW", address: "Mobile service, Wollongong / Illawarra NSW", lat: -34.4278, lng: 150.8931, approx: true },
+    { name: "Highland Physios", state: "NSW", address: "2/2 Winnima Way, Berkeley NSW 2506", lat: -34.4700, lng: 150.8450 },
+    { name: "Council On The Ageing", state: "ACT", address: "2 Wisdom St, Hughes ACT 2605", lat: -35.3330715, lng: 149.0938386 },
+    { name: "Clinic88", state: "ACT", address: "1/12 Furzer St, Phillip ACT 2606", lat: -35.3419157, lng: 149.0834124 },
+    // VIC
+    { name: "Age Care Physiotherapy", state: "VIC", address: "1 Queens Rd, Melbourne VIC 3004", lat: -37.8357733, lng: 144.9738827 },
+    { name: "Exercise Rehab", state: "VIC", address: "82 Keilor Rd, Essendon North VIC 3041", lat: -37.7420173, lng: 144.9051884 },
+    { name: "Monash University Neuroscience", state: "VIC", address: "Monash University, Wellington Rd, Clayton VIC 3800", lat: -37.9105, lng: 145.1343 },
+    { name: "Dizziness Balance Disorders Centre", state: "SA", address: "Level 2/70 Hindmarsh Sq, Adelaide SA 5000", lat: -34.9250881, lng: 138.6067146 },
+    { name: "Botanic Health Service", state: "SA", address: "64 MacKinnon Pde, North Adelaide SA 5006", lat: -34.9082015, lng: 138.6078438 },
+    { name: "AgeFIT Solutions", state: "SA", address: "Adelaide SA 5000 (headquarters)", lat: -34.9285, lng: 138.6007, approx: true },
+    { name: "Hampstead Rehab Centre", state: "SA", address: "207-235 Hampstead Rd, Northfield SA 5085", lat: -34.8611223, lng: 138.618677 }
+];
+
+// "pending" sites have no confirmed address yet, so they are not plotted.
+// To show one: delete  approx: true  and add  address, lat, lng.
+const australiaSites = australiaAll;
+
+// sites without coordinates are spread in a small ring around their state hub
+Object.keys(stateHubs).forEach(code => {
+    const group = australiaSites.filter(s => s.state === code);
+    const unpinned = group.filter(s => s.lat === undefined);
+    unpinned.forEach((s, i) => {
+        const angle = (2 * Math.PI * i) / unpinned.length;
+        s.lat = stateHubs[code].lat + 0.12 * Math.sin(angle);
+        s.lng = stateHubs[code].lng + 0.14 * Math.cos(angle);
+    });
+    group.forEach(s => {
+        s.country = "Australia (" + code + ")";
+        s.type = "Balance Mat Site";
+        s.focus = "Balance assessment & training";
+    });
+});
+
 const panel = document.getElementById("panel");
 const backBtn = document.getElementById("backBtn");
 
@@ -511,6 +573,7 @@ function showPanel(loc) {
         <div style="margin-top:22px;">
             <div class="stat"><span>Type</span><b>${loc.type}</b></div>
             <div class="stat"><span>Country</span><b>${loc.country}</b></div>
+            ${loc.address ? `<div class="stat"><span>Address</span><b>${loc.address}</b></div>` : (loc.approx ? `<div class="stat"><span>Location</span><b>Approximate</b></div>` : '')}
             <div class="stat"><span>Focus</span><b>${loc.focus}</b></div>
         </div>
 
@@ -559,45 +622,105 @@ function clusterIcon(count) {
     });
 }
 
+function makePin(loc, tip) {
+    const marker = L.marker([loc.lat, loc.lng], { icon: pinIcon() });
+    marker.bindTooltip(tip, { direction: 'top', offset: [0, -30], className: 'bm-tooltip' });
+    marker.on('click', () => showPanel(loc));
+    return marker;
+}
+
+function makeCluster(latlng, count, tip) {
+    const m = L.marker(latlng, { icon: clusterIcon(count) });
+    m.bindTooltip(tip, { direction: 'top', offset: [0, -34], className: 'bm-tooltip' });
+    return m;
+}
+
 // ================= MARKERS =================
 
 const singaporeLocations = locations.filter(loc => loc.country === "Singapore");
 const otherLocations = locations.filter(loc => loc.country !== "Singapore");
 
-otherLocations.forEach(loc => {
-    const marker = L.marker([loc.lat, loc.lng], { icon: pinIcon() }).addTo(map);
-    marker.bindTooltip(`${loc.name} &middot; ${loc.country}`, { direction: 'top', offset: [0, -30], className: 'bm-tooltip' });
-    marker.on('click', () => showPanel(loc));
-});
+otherLocations.forEach(loc => makePin(loc, `${loc.name} &middot; ${loc.country}`).addTo(map));
 
+// Singapore cluster
 const singaporeCenter = [
     (1.2966 + 1.3521) / 2,
     (103.7764 + 103.8198) / 2
 ];
+const singaporeCluster = makeCluster(singaporeCenter, singaporeLocations.length, `Singapore &middot; ${singaporeLocations.length} locations`).addTo(map);
+const singaporeMarkers = singaporeLocations.map(loc => makePin(loc, loc.name));
 
-const singaporeCluster = L.marker(singaporeCenter, { icon: clusterIcon(singaporeLocations.length) }).addTo(map);
-singaporeCluster.bindTooltip(`Singapore &middot; ${singaporeLocations.length} locations`, { direction: 'top', offset: [0, -34], className: 'bm-tooltip' });
+// Australia cluster -> state clusters -> site pins
+const australiaCenter = [-28, 134];
+const australiaCluster = makeCluster(australiaCenter, australiaSites.length, `Australia &middot; ${australiaSites.length} locations`).addTo(map);
 
-const singaporeMarkers = singaporeLocations.map(loc => {
-    const marker = L.marker([loc.lat, loc.lng], { icon: pinIcon() });
-    marker.bindTooltip(loc.name, { direction: 'top', offset: [0, -30], className: 'bm-tooltip' });
-    marker.on('click', () => showPanel(loc));
-    return marker;
+const stateClusters = {};
+const stateMarkers = {};
+Object.keys(stateHubs).forEach(code => {
+    const sites = australiaSites.filter(s => s.state === code);
+    const hub = stateHubs[code];
+    stateClusters[code] = makeCluster([hub.lat, hub.lng], sites.length, `${hub.name} &middot; ${sites.length} location${sites.length > 1 ? 's' : ''}`);
+    stateMarkers[code] = sites.map(s => makePin(s, s.name));
+    stateClusters[code].on('click', () => openState(code));
 });
 
 // keep track of the world view so "back" always returns exactly here
 const worldView = { center: map.getCenter(), zoom: map.getZoom() };
+let level = 'world';       // 'world' | 'singapore' | 'australia' | 'state'
+let activeState = null;
+
+function removeAll(list) { list.forEach(m => map.removeLayer(m)); }
 
 singaporeCluster.on('click', () => {
+    level = 'singapore';
     map.flyTo(singaporeCenter, 11, { duration: 1.1 });
     map.removeLayer(singaporeCluster);
-    singaporeMarkers.forEach(marker => marker.addTo(map));
-    backBtn.classList.add('visible');
+    singaporeMarkers.forEach(m => m.addTo(map));
+    setBack("Back to global view");
 });
 
+australiaCluster.on('click', () => {
+    map.removeLayer(australiaCluster);
+    showStateClusters();
+});
+
+function showStateClusters() {
+    level = 'australia';
+    if (activeState) { removeAll(stateMarkers[activeState]); activeState = null; }
+    Object.values(stateClusters).forEach(c => c.addTo(map));
+    const pts = Object.values(stateHubs).map(h => [h.lat, h.lng]);
+    map.flyToBounds(pts, { padding: [90, 90], maxZoom: 6, duration: 1.1 });
+    setBack("Back to global view");
+    closePanel();
+}
+
+function openState(code) {
+    level = 'state';
+    activeState = code;
+    removeAll(Object.values(stateClusters));
+    stateMarkers[code].forEach(m => m.addTo(map));
+    const pts = australiaSites.filter(x => x.state === code).map(x => [x.lat, x.lng]);
+    map.flyToBounds(pts, { padding: [90, 90], maxZoom: 13, duration: 1.1 });
+    setBack("Back to Australia");
+}
+
+function setBack(label) {
+    backBtn.innerHTML = "&#8592; " + label;
+    backBtn.classList.add('visible');
+}
+
+function goBack() {
+    if (level === 'state') { showStateClusters(); return; }
+    returnToGlobalView();
+}
+
 function returnToGlobalView() {
-    singaporeMarkers.forEach(marker => map.removeLayer(marker));
+    removeAll(singaporeMarkers);
+    removeAll(Object.values(stateClusters));
+    if (activeState) { removeAll(stateMarkers[activeState]); activeState = null; }
     singaporeCluster.addTo(map);
+    australiaCluster.addTo(map);
+    level = 'world';
     map.flyTo(worldView.center, worldView.zoom, { duration: 1.1 });
     backBtn.classList.remove('visible');
     closePanel();
