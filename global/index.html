@@ -540,6 +540,31 @@ const australiaAll = [
 // To show one: delete  approx: true  and add  address, lat, lng.
 const australiaSites = australiaAll;
 
+// Type and focus shown in each site's side panel - edit freely.
+const siteInfo = {
+    "Our GP Complex":                      { type: "General Practice",             focus: "Primary care & general medical services" },
+    "Exercise Therapies":                  { type: "Exercise Physiology Clinic",   focus: "Exercise rehabilitation & chronic condition care" },
+    "Optimum Allied Health":               { type: "Allied Health Practice",       focus: "Physiotherapy & allied health services" },
+    "Hastings Physio and Health":          { type: "Physiotherapy Clinic",         focus: "Physiotherapy & rehabilitation" },
+    "Garden Village Aged Care":            { type: "Aged Care Facility",           focus: "Residential aged care" },
+    "Ultra FLX":                           { type: "Health & Fitness Clinic",      focus: "Health, fitness & movement" },
+    "Wini Health":                         { type: "Digital Health Program",       focus: "Online health & wellbeing program" },
+    "Rehab on the Road":                   { type: "Mobile Rehabilitation Service", focus: "In-home rehabilitation & physiotherapy" },
+    "Vintage Fitness and Health":          { type: "Fitness & Health Centre",      focus: "Fitness, health & wellbeing" },
+    "Think and Move":                      { type: "Mobile Allied Health Service", focus: "Exercise & movement therapy" },
+    "MacAllan Health":                     { type: "Mobile Exercise Physiology",   focus: "Exercise physiology in the Illawarra region" },
+    "Highland Physios":                    { type: "Physiotherapy Clinic",         focus: "Physiotherapy & rehabilitation" },
+    "Council On The Ageing":               { type: "Seniors Advocacy Organisation", focus: "Healthy ageing & seniors support" },
+    "Clinic88":                            { type: "Allied Health Clinic",         focus: "Rehabilitation & allied health care" },
+    "Age Care Physiotherapy":              { type: "Physiotherapy Service",        focus: "Physiotherapy for older adults & aged care" },
+    "Exercise Rehab":                      { type: "Exercise Rehabilitation Clinic", focus: "Exercise-based rehabilitation" },
+    "Monash University Neuroscience":      { type: "University Research",          focus: "Neuroscience research" },
+    "Dizziness Balance Disorders Centre":  { type: "Specialist Clinic",            focus: "Dizziness & balance disorder assessment" },
+    "Botanic Health Service":              { type: "Physiotherapy & Health Clinic", focus: "Physiotherapy & allied health" },
+    "AgeFIT Solutions":                    { type: "Aged Care Fitness Provider",   focus: "Exercise programs for older adults" },
+    "Hampstead Rehab Centre":              { type: "Rehabilitation Centre",        focus: "Rehabilitation services" }
+};
+
 // sites without coordinates are spread in a small ring around their state hub
 Object.keys(stateHubs).forEach(code => {
     const group = australiaSites.filter(s => s.state === code);
@@ -551,8 +576,9 @@ Object.keys(stateHubs).forEach(code => {
     });
     group.forEach(s => {
         s.country = "Australia (" + code + ")";
-        s.type = "Balance Mat Site";
-        s.focus = "Balance assessment & training";
+        const info = siteInfo[s.name] || {};
+        s.type = info.type || "Balance Mat Site";
+        s.focus = info.focus || "Balance assessment & training";
     });
 });
 
